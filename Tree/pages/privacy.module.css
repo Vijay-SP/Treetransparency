@@ -1,0 +1,37 @@
+.heading1 {
+    font-family: bebas neue;
+    font-size: 46px;
+    text-align: center;
+   color: white;
+    margin: 0px ;
+    padding: 0 0 6px 0;
+    border-bottom: 1px solid rgba(0,0,0,.15);
+  }
+  .container
+  {
+      width: 100%;
+      color: white;
+      background: black;
+      overflow: hidden;
+      padding: 0px auto;
+  }
+  .heading2 {
+    font-family: bebas neue;
+    font-size: 26px;
+    line-height: 20px;
+    text-align: left;
+    color: white;
+    margin-bottom: 20px;
+    margin: 0px 20px;
+    padding: 20px 0 0 0;
+  }
+ 
+  .para {
+    font-family: open sans;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: white;
+    margin: 0px 80px;
+    padding: 10px 0 0 0;
+  }
+  

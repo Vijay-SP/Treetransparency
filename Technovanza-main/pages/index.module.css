@@ -1,0 +1,130 @@
+.svgtext {
+  font-family: Lora;
+  /* letter-spacing: 10px; */
+  stroke: #6415FF;
+  font-size: 4rem;
+  font-weight: 700;
+  stroke-width: 2.5;
+  animation: textAnimate 1.5s infinite alternate;
+
+}
+
+@keyframes textAnimate {
+  0% {
+    stroke-dasharray: 0 50%;
+    stroke-dashoffset: 20%;
+    fill: hsl(0, 0%, 100%)
+  }
+
+  100% {
+    stroke-dasharray: 50% 0;
+    stroke-dashoffstet: -20%;
+    fill: rgba(255, 255, 255, 0)
+  }
+
+}
+
+
+.textHeader {
+  text-align: center;
+  font-size: 4rem;
+  line-height: 8vw;
+  margin: 0;
+  font-weight: 900;
+  background: url(https://cdn.dribbble.com/users/1770290/screenshots/6220590/bg_82.gif);
+  background-size: 40%;
+  background-position: 50% 50%;
+  -webkit-background-clip: text;
+  color: rgba(0, 0, 0, 0.08);
+  animation: zoomout 5s ease 500ms infinite;
+}
+
+@media only screen and (max-width: 600px) {
+  .textHeader {
+    font-size: 1.75rem;
+  }
+}
+
+@keyframes zoomout {
+  from {
+    background-size: 40%;
+  }
+
+  to {
+    background-size: 10%;
+  }
+}
+
+
+
+/* Loading */
+.loader {
+  -webkit-perspective: 700px;
+  perspective: 500px;
+  height: 20vh;
+}
+
+.loader>span {
+  font-size: 5rem;
+  font-family: "franklin gothic medium", sans-serif;
+  display: inline-block;
+  animation: flip 2.6s infinite linear;
+  transform-origin: 0 70%;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
+@keyframes flip {
+  35% {
+    transform: rotateX(360deg);
+  }
+
+  100% {
+    transform: rotatex(360deg);
+  }
+}
+
+
+.loader>span:nth-child(even) {
+  color: white;
+}
+
+.loader>span:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.loader>span:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.loader>span:nth-child(4) {
+  animation-delay: 0.9s;
+}
+
+.loader>span:nth-child(5) {
+  animation-delay: 1.2s;
+}
+
+.loader>span:nth-child(6) {
+  animation-delay: 1.5s
+}
+
+.loader>span:nth-child(7) {
+  animation-delay: 1.8s
+}
+
+
+@media (min-width:320px) {
+  /* smartphones, iPhone, portrait 480x320 phones */
+  .svgtext{
+    font-size: 2rem;
+  }
+}
+
+@media (min-width:481px) {
+  /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+}
+
+@media (min-width:641px) {
+  /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+}
