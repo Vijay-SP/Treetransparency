@@ -1,1 +1,2 @@
 Database Restrictions (Firebase Rules)
+adding gateway for crypto currency
