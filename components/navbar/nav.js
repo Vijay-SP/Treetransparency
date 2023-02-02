@@ -66,7 +66,9 @@ export default function NavBar() {
                         <a href='/pay' className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-center text-white font-bold items-center justify-center hover:bg-primary-500 hover:text-white'>
                             Donate NGO
                         </a>
-
+                        {user && user.year === 'Normal Citizen' && <a href='/tree-status' className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-center text-white font-bold items-center justify-center hover:bg-primary-500 hover:text-white'>
+                            Update Tree Status
+                        </a>}
                         <a href='https://rzp.io/l/IPiA3lwB2a' className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-center text-white font-bold items-center justify-center hover:bg-primary-500 hover:text-white'>
                             Crowd Fund
                         </a>

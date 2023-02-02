@@ -3,6 +3,7 @@ import { initializeApp, getApp, getApps, FirebaseApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 let firebaseApp;
 
 const firebaseConfig = {
@@ -24,4 +25,5 @@ if (getApps().length) {
 
 export const auth = getAuth(firebaseApp);
 export const app = firebaseApp;
+export const storage = getStorage(firebaseApp)
 export const firestore = getFirestore();

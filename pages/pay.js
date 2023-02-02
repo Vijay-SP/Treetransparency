@@ -161,7 +161,7 @@ export default function pay() {
     <div>
       <a className="donate-with-crypto"
         href="https://commerce.coinbase.com/checkout/e8bfba4f-9db2-44aa-a5c4-67cd37112f69">
-        Donate with Crypto ambani ke chode
+        Donate with Crypto 
       </a>
       <script src="https://commerce.coinbase.com/v1/checkout.js?version=201807">
       </script>
