@@ -37,12 +37,12 @@ export default function SetProfile() {
     const [fname, setFname] = useState();
     const [lname, setLname] = useState();
     const [phone, setPhone] = useState();
-    const [year, setYear] = useState("Select");
+    const [type, settype] = useState("Select");
   
     // Error handlers
-    const [yearError, setYearError] = useState(false);
+    const [typeError, settypeError] = useState(false);
    
-    let yearErrorLocal = false;
+    let typeErrorLocal = false;
    
 
     useEffect(async () => {
@@ -65,7 +65,7 @@ export default function SetProfile() {
                 setFname(userData.fname ?? null);
                 setLname(userData.lname ?? null);
                 setPhone(userData.phone ?? null);
-                setYear(userData.year ?? "Select");
+                settype(userData.type ?? "Select");
 
             } else {
                 // doc.data() will be undefined in this case
@@ -78,22 +78,22 @@ export default function SetProfile() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let data = { fname, lname, phone, year };
+        let data = { fname, lname, phone, type };
 
         
 
-        if (year == "Select") {
-            setYearError(true);
-            yearErrorLocal = true;
+        if (type == "Select") {
+            settypeError(true);
+            typeErrorLocal = true;
         }
         else {
-            setYearError(false);
-            yearErrorLocal = false;
+            settypeError(false);
+            typeErrorLocal = false;
         }
 
         
         
-        if (yearErrorLocal == false ) {            
+        if (typeErrorLocal == false ) {            
             try {
 
                 await changeDisplayName(fname + " " + lname);
@@ -197,8 +197,8 @@ export default function SetProfile() {
                                             <select
                                                 className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                                 id="grid-state"
-                                                onChange={(e) => setYear(e.target.value)}
-                                                value={year}
+                                                onChange={(e) => settype(e.target.value)}
+                                                value={type}
                                                 required
                                             >
                                                  <option value="Select">Select</option>
@@ -209,7 +209,7 @@ export default function SetProfile() {
                                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
                                             </div>
-                                            {yearError ? <p className="text-red-500 text-xs italic">Please fill out this field.</p> : null}
+                                            {typeError ? <p className="text-red-500 text-xs italic">Please fill out this field.</p> : null}
                                         </div>
                                     </div>
 

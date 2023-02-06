@@ -8,6 +8,7 @@ import Section4 from "../components/sections/section4.js";
 import Section5 from "../components/sections/section5.js";
 import Events from "../components/sections/events.js";
 
+
 import bgStyles from "../styles/bgStyles.module.css";
 
 import Head from 'next/head';
@@ -17,6 +18,7 @@ export default function index() {
   const Subheading = tw.span`uppercase text-4xl tracking-widest font-bold text-white`;
   const HighlightedText = tw.span`text-blue-500`;
 
+   
   return (
     <>
 

@@ -47,7 +47,7 @@ export default function Profile() {
 
             if (docSnap.exists()) {
                 let userData = docSnap.data();
-                if (!userData.year) {
+                if (!userData.type) {
                     router.push('/setprofile')
                 }
                 else {
@@ -137,7 +137,7 @@ export default function Profile() {
                                                         
                                                         <div className="grid grid-cols-2">
                                                             <div className="px-4 py-2 font-semibold">User Type</div>
-                                                            <div className="py-2 break-words">{localData.year}</div>
+                                                            <div className="py-2 break-words">{localData.type}</div>
                                                         </div>
                                                         <div className="grid grid-cols-2">
                                                             <div className="px-4 py-2 font-semibold ">Email</div>

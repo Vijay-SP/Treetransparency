@@ -2,9 +2,10 @@
     padding: 0 2rem;
   }
   .btn{
-    padding: 5%;
+    padding: 1rem 2rem;
     margin: 10px;
     background-color: #0070f3;
+    color: white;
     border: 0;
     border-radius: 20px;
   }
@@ -14,6 +15,12 @@
     background-color: white;
     border: none;
     color: #111;
+  }
+  .or {
+    font-size: 1.5rem;
+    text-transform: capitalize;
+    color: white;
+    margin-right: 0.85rem;
   }
   .main {
     min-height: 100vh;
@@ -80,10 +87,11 @@
   }
   
   .grid {
-    display: flex;
+    display: grid;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    width: 100%;
     max-width: 800px;
   }
   

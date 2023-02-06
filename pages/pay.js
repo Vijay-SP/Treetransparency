@@ -1,17 +1,69 @@
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./pay.module.css";
 import {
   addDoc,
   collection,
+  getDocs,
+  query,
+  where,
+  getDoc,
 } from "firebase/firestore";
+import { auth } from "../services/firebase.js";
 import { firestore } from "../services/firebase.js";
+import { clcik } from "../services/transactweb3.js";
+import Web3 from "web3";
+import { abi } from "../services/transactweb3.js";
+import { doc } from "firebase/firestore";
+import { useUserContext } from "../services/userContext";
+import { async } from "@firebase/util";
+import { useRouter } from "next/router";
+import LoadingAnimation from "../components/misc/Loading";
 
 export default function pay() {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState(0);
   const [paySuccess, setPaySuccess] = useState(false);
   const [paymentDetails, setPaymentDetails] = useState("");
+  let web3;
+  const [defaultacc, setdefaultacc] = useState();
+  const [transhash, settranshash] = useState("");
+  const { user } = useUserContext();
+  const [localData, setLocalData] = useState();
+  const [orgs, setOrgs] = useState([]);
+  const router = useRouter();
+
+  function connect() {
+    web3 = new Web3(window.ethereum);
+    window.ethereum.enable().catch((error) => {
+      // User denied account access
+      console.log(error);
+    });
+    const AgentContract = new web3.eth.Contract(abi);
+    web3.eth.defaultAccount = web3.currentProvider.selectedAddress;
+    setdefaultacc(web3.eth.defaultAccount);
+    return web3.currentProvider.selectedAddress;
+  }
+
+  useEffect(async () => {
+    connect();
+    fetchNGO();
+  }, []);
+
+  function fetchNGO() {
+    const docRef = collection(firestore, "Users");
+    const q = query(docRef, where("type", "==", "Government Bodies / NGO"));
+    // alert()
+    getDocs(q)
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          setOrgs([...orgs, doc.data().fname + " " + doc.data().lname]);
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
 
   function validateFormWithJS() {
     const Amount = document.getElementById("Amount").value;
@@ -78,10 +130,18 @@ export default function pay() {
           name: "",
           description: "Test Transaction",
           handler: function (res) {
-            addDoc(collection(firestore, "payments"), { name, amount, ...res })
-              .then(() => console.log("Document was saved"))
-              .catch((e) => alert(`Error occured : ${JSON.stringify(e)}`));
-
+            clcik(defaultacc, amount, (hash) => {
+              settranshash(hash);
+              addDoc(collection(firestore, "payments"), {
+                name,
+                amount,
+                hash,
+                fromname: auth.currentUser.displayName,
+                ...res,
+              })
+                .then(() => console.log("Document was saved"))
+                .catch((e) => alert(`Error occured : ${JSON.stringify(e)}`));
+            });
             setPaySuccess(true);
             setPaymentDetails({
               ...res,
@@ -129,53 +189,72 @@ export default function pay() {
           <SuccessPage
             payment_id={paymentDetails.razorpay_payment_id}
             amount={paymentDetails.amount}
+            transhash={transhash}
           />
         ) : (
           <div className={styles.grid}>
-            <input
+            <div className="grid gap-5 mb-10 w-full">
+              {/* <input
               placeholder="Name"
               className={styles.input}
-              type="text"
+              type="select"
               name="name"
               id="name"
               value={name}
               onChange={(e) => setName(e.currentTarget.value)}
-            />
+            /> */}
+              <select
+                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="grid-state"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              >
+                <option value="Select">Select</option>
+                {orgs.map((e) => (
+                  <option value={e}>{e}</option>
+                ))}
+              </select>
 
-            <input
-              placeholder="Amount"
-              className={styles.input}
-              type="number"
-              name="Amount"
-              id="Amount"
-              value={amount}
-              onChange={(e) => setAmount(e.currentTarget.value)}
-            />
+              <input
+                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                placeholder="Amount"
+                // className={styles.input}
+                type="number"
+                name="Amount"
+                id="Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.currentTarget.value)}
+              />
+            </div>
 
-            <button
-              className={styles.btn}
-              onClick={() => displayRazorpay(amount)}
-            >
-              Donate Now
-            </button> 
-    <div>
-      <a className="donate-with-crypto"
-        href="https://commerce.coinbase.com/checkout/e8bfba4f-9db2-44aa-a5c4-67cd37112f69">
-        Donate with Crypto 
-      </a>
-      <script src="https://commerce.coinbase.com/v1/checkout.js?version=201807">
-      </script>
-    </div>
-
+            <div className="grid place-items-center">
+              <button
+                className={styles.btn}
+                // onClick={() => clcik(web3.eth.defaultAccount)}
+                onClick={() => displayRazorpay(amount)}
+              >
+                Donate Now
+              </button>
+              <div className={styles.or}>OR</div>
+              <div>
+                <a
+                  className="donate-with-crypto"
+                  href="https://commerce.coinbase.com/checkout/e8bfba4f-9db2-44aa-a5c4-67cd37112f69"
+                >
+                  Donate with Crypto
+                </a>
+                <script src="https://commerce.coinbase.com/v1/checkout.js?version=201807"></script>
+              </div>
+            </div>
           </div>
-          
         )}
       </main>
     </div>
   );
 }
 
-function SuccessPage({ payment_id, amount }) {
+function SuccessPage({ payment_id, amount, transhash }) {
   return (
     <div className="container mx-auto mt-4">
       <div className="shadow-md bg-white grid place-items-center rounded-md p-10 gap-3">
@@ -189,6 +268,10 @@ function SuccessPage({ payment_id, amount }) {
         <div className="flex gap-3 text-lg">
           <p>Amount: </p>
           <p>{amount}</p>
+        </div>
+        <div className="flex gap-3 text-lg">
+          <p>Transaction Hash: </p>
+          <p>{transhash}</p>
         </div>
       </div>
     </div>
