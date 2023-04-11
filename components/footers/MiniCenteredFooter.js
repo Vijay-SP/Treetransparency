@@ -35,7 +35,7 @@ export default function Footer() {
 
           <LinksContainer>
             <Link href="/">Home</Link>
-            <Link href="/events">Buy/Sell plants</Link>
+            <Link href="/tree-adopt">Adopt Trees</Link>
             <Link href="/pay">Donate NGO</Link>
             <Link href="/login">Login/Signup</Link>
           </LinksContainer>

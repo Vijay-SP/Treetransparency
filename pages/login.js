@@ -61,7 +61,7 @@ export default function Login({
     ],
     submitButtonText = "Sign In",
 
-}) {
+}) {  
 
     const {
         error, loading, user, readyToRedirect,
@@ -106,7 +106,7 @@ export default function Login({
     return (
         <>
             <Head>
-                <title>Login | Tree Transparency 2021-22</title>
+                <title>Login | Tree Transparency 2022-23</title>
                 <link rel="icon" href="/favicon.ico" />
 
                 {/* Meta tags */}

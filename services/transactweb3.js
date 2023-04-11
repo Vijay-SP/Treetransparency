@@ -87,7 +87,7 @@ export function clcik(defaultAccount, amount, callback){
 					return;
 			}
 		callback(transactionHash)
-		alert("Transaction Sucessfull",transactionHash);
+		alert("Transaction Successful",transactionHash);
 	});
 
 }

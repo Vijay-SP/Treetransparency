@@ -11,6 +11,15 @@ import { firestore } from '../services/firebase.js';
 import Head from 'next/head';
 import styles from './profile.module.css';
 import bgStyles from "../styles/bgStyles.module.css";
+import {
+    addDoc,
+    collection,
+    getDocs,
+    query,
+    where,
+  } from "firebase/firestore";
+import { list } from 'firebase/storage';
+  
 
 const HighlightedText = tw.div`text-primary-500`;
 const SubmitButton = styled.button`
@@ -54,10 +63,9 @@ export default function Profile() {
                     window.localStorage.setItem("userData", JSON.stringify(userData));
                     setLocalData(userData);
                 }
-            }
+            } 
         }
     }, [user]);
-
 
     const getTechnoId = (user) => {
         let date = new Date(user.metadata.creationTime);
@@ -160,6 +168,13 @@ export default function Profile() {
                                     }
 
                                 </main>
+                                <div>
+                                    <p>{Listings()}</p>
+                                   </div>
+                                   <br/><br/>
+                                   <div>
+                                    <p>{Adoption()}</p>
+                                   </div>   
                             </div>
 
                         </>
@@ -171,3 +186,301 @@ export default function Profile() {
 
     )
 }
+
+function Listings() {
+  const getTechnoId = (user) => {
+    let date = new Date(user.metadata.creationTime);
+
+    let day = date.getDay().toString();
+    if (day.length === 1) day = "0" + day;
+
+    let month = date.getMonth().toString();
+    if (month.length === 1) month = "0" + month;
+
+    let hour = date.getHours().toString();
+    if (hour.length === 1) hour = "0" + hour;
+
+    let minute = date.getMinutes().toString();
+    if (minute.length === 1) minute = "0" + minute;
+
+    let second = date.getSeconds().toString();
+    if (second.length === 1) second = "0" + second;
+
+    let millisec = user.metadata.createdAt.toString().slice(-2);
+    return day + month + " " + hour + minute + " " + second + millisec
+}
+
+
+  const { user } = useUserContext();
+  const [listing, setListing] = useState([]);
+  const isSold = useState();
+  const router = useRouter();
+
+  useEffect(() => {
+    fetchListings();
+  }, []);
+
+  const editListing = () => {
+    window.localStorage.setItem("listingEditing", true);
+    router.push('/setlisting');
+}
+  function fetchListings() {
+    let data = [];
+
+    getDocs(collection(firestore, "SellTrees")).then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        data.push(doc.data());
+      });
+      setListing(data);
+    });
+  }
+
+  return (
+    <div>
+      {listing.length > 0 && (
+        <div>
+          <h1 className="text-white text-center text-3xl">My Listings</h1>
+          <div className="flex flex-wrap justify-center">
+            {listing.map((listing) => (
+              <div className="w-1/4 p-4">
+                <div
+                  className="card bg-white shadow-xl text-primary-content text-black rounded-lg"
+                  key={listing.treeTitle}
+                >
+                  <div className="card-body">
+                    <img
+                      className="card-img-top p-3"
+                      src={listing.imageUrl}
+                      alt="Image1"
+                      width={300}
+                      height={300}
+                    />
+                    <h2 className="card-title text-black pl-5">
+                      {listing.treeTitle}
+                    </h2>
+                    <p className="pl-5">
+                      Description:{listing.treeDescription}
+                      <br />
+                      Species:{listing.treeSpecies}
+                      <br />
+                      Price (In Rupees):{listing.treePrice}
+                      <br />
+                      Adoption Status:{isSold ? " Adopted" : " Not Adopted"}
+                      <br />
+                      Adopted By:{getTechnoId(user)}
+                    </p>
+                    <div className="card-actions justify-end">
+                        <button className="btn bg-purple-500 text-gray-100 w-full py-4 rounded-lg hover:bg-primary-900" onClick={() => editListing()}>
+                          Edit
+                        </button>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Adoption() {
+  const [adoption, setAdoption] = useState([]);
+
+  useEffect(() => {
+    fetchAdoption();
+  }, []);
+
+  function fetchAdoption() {
+    let data = [];
+
+    getDocs(collection(firestore, "SellTrees")).then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        // alert(doc.id + " => " + doc.data());
+        data.push(doc.data());
+      });
+      setAdoption(data);
+    });
+  }
+
+  return (
+    <div>
+      <h1 className="text-white text-center text-3xl">My Adoptions</h1>
+      <div className="flex flex-row flex-wrap">
+        {adoption.map((adoption) => (
+          <div className="w-1/4 p-4" key={adoption.treeTitle}>
+            <div className="card bg-white shadow-xl text-primary-content text-black rounded-lg">
+              <img
+                className="card-img-top p-3 pl-2 pr-2"
+                src={adoption.imageUrl}
+                alt="Image1"
+                width={300}
+                height={300}
+              />
+              <div className="card-body">
+                <h2 className="card-title pl-5">{adoption.treeTitle}</h2>
+                <p className='pl-5'>
+                  Description: {adoption.treeDescription}
+                  <br />
+                  Species: {adoption.treeSpecies}
+                  <br />
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+ /*function Listings() {
+  const getTechnoId = (user) => {
+    let date = new Date(user.metadata.creationTime);
+
+    let day = date.getDay().toString();
+    if (day.length === 1) day = "0" + day;
+
+    let month = date.getMonth().toString();
+    if (month.length === 1) month = "0" + month;
+
+    let hour = date.getHours().toString();
+    if (hour.length === 1) hour = "0" + hour;
+
+    let minute = date.getMinutes().toString();
+    if (minute.length === 1) minute = "0" + minute;
+
+    let second = date.getSeconds().toString();
+    if (second.length === 1) second = "0" + second;
+
+    let millisec = user.metadata.createdAt.toString().slice(-2);
+    return day + month + " " + hour + minute + " " + second + millisec
+}
+
+
+const { user } = useUserContext();
+    const [listing, setListing] = useState([]);
+    const isSold=useState();
+    useEffect(() => {
+      fetchListings();
+    }, []);
+
+    
+  
+  function fetchListings() {
+      let data = [];
+  
+      getDocs(collection(firestore, "SellTrees")).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          // alert(doc.id + " => " + doc.data());
+          data.push(doc.data());
+        });
+        setListing(data);
+      });
+    }
+  
+    return (
+      <div>
+        {(
+            <div>
+              <h1 className="text-white text-center text-3xl">My Listings</h1><br/>
+         
+            {listing.map((listing) => (
+              <div className="flex flex-row flex-wrap"> 
+           
+        <div className="card w-75 bg-white shadow-xl text-primary-content m-4 text-black rounded-lg" key={listing.treeTitle}>
+  <div className="card-body">
+  <img
+                  className="card-img-top p-3"
+                  src={
+                    listing.imageUrl
+                  }
+                  alt="Image1"
+                  width={300}
+                  height={300}
+                />
+                
+    <h2 className="card-title text-black pl-5">{listing.treeTitle}</h2>
+    <p className="pl-5">
+      Description:{listing.treeDescription}<br></br>
+      Species:{listing.treeSpecies}<br></br>
+      Price(In Rupees):{listing.treePrice}<br/>
+      Adoption Status:{isSold? " Adopted": " Not Adopted"} <br/>
+      Adopted By:{ getTechnoId(user)}
+    </p>
+    
+  </div>
+</div>
+
+</div>
+               
+          ))}
+          
+        </div>
+      )}
+      </div>
+      );
+
+}*/
+
+ /* function Adoption() {
+    const [adoption, setAdoption] = useState([]);
+  
+    useEffect(() => {
+      fetchAdoption();
+    }, []);
+  
+    function fetchAdoption() {
+      let data = [];
+  
+      getDocs(collection(firestore, "SellTrees")).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          // alert(doc.id + " => " + doc.data());
+          data.push(doc.data());
+        });
+        setAdoption(data);
+      });
+    }
+  
+    return (
+      <div>
+        {(
+            <div>
+              <h1 className="text-white text-center text-3xl">My Adoptions</h1><br/>
+            {adoption.map((adoption) => (
+              <div className="flex flex-row flex-wrap"> 
+           
+        <div className="card w-75 bg-white shadow-xl text-primary-content m-4 text-black rounded-lg" key={adoption.treeTitle}>
+  <div className="card-body">
+  <img
+                  className="card-img-top p-3"
+                  src={
+                    adoption.imageUrl
+                  }
+                  alt="Image1"
+                  width={300}
+                  height={300}
+                />
+                
+    <h2 className="card-title text-black pl-5">{adoption.treeTitle}</h2>
+    <p className="pl-5">
+      Description:{adoption.treeDescription}<br></br>
+      Species:{adoption.treeSpecies}<br></br>
+    </p>
+    
+  </div>
+</div>
+
+</div>
+               
+          ))}
+          
+        </div>
+      )}
+      </div>);
+  }*/

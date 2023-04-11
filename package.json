@@ -3,11 +3,18 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "compile":"truffle compile",
+    "migrate":"truffle migrate",
+    "test":"truffle test",
+    "console":"truffle console",
+    "deploy":"truffle deploy",
+    "ganache":"ganache"
   },
   "dependencies": {
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
+    "@openzeppelin/contracts": "^4.8.2",
     "@owaiswiz/use-in-view": "^1.0.16",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "feather-icons": "^4.28.0",
@@ -23,7 +30,6 @@
     "sass": "^1.44.0",
     "shortid": "^2.2.16",
     "styled-components": "^5.3.3",
-    "truffle": "^5.7.4",
     "twin.macro": "^2.8.1",
     "web3": "^1.8.2"
   },
@@ -32,7 +38,9 @@
     "@babel/preset-react": "^7.16.0",
     "autoprefixer": "^10.2.6",
     "babel-plugin-styled-components": "^2.0.2",
+    "ganache-cli": "^6.12.2",
     "postcss": "^8.3.5",
-    "tailwindcss": "^2.2.4"
+    "tailwindcss": "^2.2.4",
+    "truffle": "^5.8.1"
   }
 }

@@ -60,8 +60,8 @@ export default function NavBar() {
                         <a href='/' className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-center text-white font-bold items-center justify-center hover:bg-primary-500 hover:text-white'>
                             Home
                         </a>
-                        <a href='/' className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-center text-white font-bold items-center justify-center hover:bg-primary-500 hover:text-white'>
-                            Buy/Sell Plants
+                        <a href='/tree-adopt' className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-center text-white font-bold items-center justify-center hover:bg-primary-500 hover:text-white'>
+                            Adopt Trees
                         </a>
                         <a href='/pay' className='lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-center text-white font-bold items-center justify-center hover:bg-primary-500 hover:text-white'>
                             Donate NGO
