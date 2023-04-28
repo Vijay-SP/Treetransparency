@@ -11,6 +11,7 @@ import LoadingAnimation from "../components/misc/Loading.js";
 import {
   addDoc,
   collection,
+  updateDoc,
   getDocs,
   doc,
   query,
@@ -128,7 +129,7 @@ export default function adoptTrees() {
 
     getDocs(q).then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        data.push(doc.data());
+        data.push({id:doc.id,...doc.data()});
       });
 
       setFetching(false);
@@ -149,26 +150,24 @@ export default function adoptTrees() {
   //     console.error("Error adopting tree: ", error);
   //   }
   // }
-  async function adoptTree(treeId, userId) {
-    if (!treeId) {
-      console.error("Error adopting tree: treeId is undefined");
-      return;
-    }
+  async function adoptTree(treeId) {
     const treeRef = doc(firestore, "SellTrees", treeId);
     const soldToSnapshot = await getDoc(treeRef);
+    
 
-    if (soldToSnapshot.exists() && !soldToSnapshot.data().isadopted) {
+    if (soldToSnapshot.exists() && !soldToSnapshot.data().isSold) {
+  
       try {
         await updateDoc(treeRef, {
-          isadopted: true,
-          soldto: userId,
+          isSold: true,
+          soldTo: user.uid,
         });
-        console.log("Tree adopted successfully!");
+        alert("Tree adopted successfully!");
       } catch (error) {
-        console.error("Error adopting tree: ", error);
+        alert("Error adopting tree: "+ error);
       }
     } else {
-      console.error(
+      alert(
         "Error adopting tree: The tree is already adopted or does not exist"
       );
     }
@@ -181,17 +180,16 @@ export default function adoptTrees() {
       ) : (
         <div>
           <HeadingTitle>TREES TO ADOPT</HeadingTitle>
-          <div className="flex flex-row flex-wrap">
+          <div className="flex flex-wrap">
             {sales.map((sale, index) => (
-              <div className="flex flex-row pr-5 m-5" key={sale.treeTitle}>
+              <div className="w-1/4 p-4" key={sale.treeTitle}>
                 <div className="card w-75 bg-white shadow-xl text-primary-content m-4 text-black rounded-lg">
                   <div className="card-body">
                     <img
                       className="card-img-top p-3"
                       src={sale.imageUrl}
                       alt="Image1"
-                      width={300}
-                      height={300}
+                      style={{ maxWidth: "100%", maxHeight: "100%" }}
                     />
                     <h2 className="card-title text-black pl-5">
                       {sale.treeTitle}
@@ -199,9 +197,13 @@ export default function adoptTrees() {
                     <p className="pl-5">
                       Description:{sale.treeDescription}
                       <br></br>
+                      Height:{sale.treeHeight}
+                      <br/>
+                      Status:{sale.Status}
+                      <br/>
                       Species:{sale.treeSpecies}
                       <br></br>
-                      Price(In Rupees):{sale.treePrice}
+                      Location:{sale.treeCity},{sale.treeState}
                     </p>
                     <div className="card-actions justify-end">
                     
@@ -210,9 +212,8 @@ export default function adoptTrees() {
                             className="btn bg-purple-500 text-gray-100 w-full py-4 rounded-lg hover:bg-primary-900"
                             onClick={() => {
                               const index = sales.indexOf(sale);
-                              alert(index);
                               // do something with the index
-                              adoptTree()
+                              adoptTree(sale.id)
                             }}
                           >
                             Adopt Now

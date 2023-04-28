@@ -35,13 +35,13 @@ const SubmitButton = styled.button`
 `;
 
 export default function TreeStatus() {
-  const [sellerId, setSellerId] = useState();
-  const [treeId, setTreeId] = useState();
+//   const [sellerId, setSellerId] = useState();
+//   const [treeId, setTreeId] = useState();
   const router = useRouter();
   const { user } = useUserContext();
   const [treeTitle, setTreeTitle] = useState();
   const [treeDescription, setTreeDescription] = useState();
-  const [Status, setStatus] = useState("Select");
+  const [Status,setStatus]=useState();
   const [treeHeight, setTreeHeight] = useState();
   //const [treeThickness, setTreeThickness] = useState();
   const [treeSpecies, setTreeSpecies] = useState();
@@ -52,8 +52,8 @@ export default function TreeStatus() {
   const [treePinCode, setTreePinCode] = useState();
   /*const [contactName, setContactName] = useState();
     const [contactEmail, setContactEmail] = useState();
-    const [contactPhone, setContactPhone] = useState();*/
-  const [treePrice, setTreePrice] = useState();
+    const [contactPhone, setContactPhone] = useState();
+  const [treePrice, setTreePrice] = useState();*/
   const [soldTo] = useState("");
   const [isSold] = useState(false);
 
@@ -67,13 +67,13 @@ export default function TreeStatus() {
 
     setFile(event.target.files[0]);
   }
-  useEffect(() => {
-    setSellerId(uuidv4());
-  }, []);
+//   useEffect(() => {
+//     setSellerId(uuidv4());
+//   }, []);
 
-  useEffect(() => {
-    setTreeId(uuidv4());
-  }, []);
+//   useEffect(() => {
+//     setTreeId(uuidv4());
+//   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -113,14 +113,13 @@ export default function TreeStatus() {
                 treeCity,
                 treeAddress,
                 treePinCode,
-                treePrice,
                 soldTo,
                 isSold,
               }).then((docRef) => {
                 const treeId = docRef.id;
                 const docToUpdate = doc(firestore, "SellTrees", docRef.id);
                 updateDoc(docToUpdate, { treeId })
-                  .then(() => alert("Data submitted successfully"))
+                  .then(() => alert("Tree Listed successfully"))
                   .catch((e) => alert(`Error occurred: ${JSON.stringify(e)}`));
               });
             })
@@ -238,8 +237,8 @@ export default function TreeStatus() {
                     >
                       <option value="Select">Select</option>
                       <option value="Healthy">Standing Up</option>
-                      <option value="Fallen Down">Fallen Down</option>
-                      <option value="Cut Down">Cut Down</option>
+                      {/* <option value="Fallen Down">Fallen Down</option>
+                      <option value="Cut Down">Cut Down</option> */}
                       <option value="Requires Care">Requires Care</option>
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -435,7 +434,7 @@ export default function TreeStatus() {
                                     onChange={(e) => setContactPhone(e.target.value)}
                                 /></div><br></br>*/}
 
-                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                {/*<div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <label
                     className="block uppercase tracking-wide text-gray-500 text-md font-bold mb-2"
                     htmlFor="grid-first-name"
@@ -451,7 +450,7 @@ export default function TreeStatus() {
                     value={treePrice}
                     onChange={(e) => setTreePrice(e.target.value)}
                   />
-                </div>
+                </div>*/}
 
                 <SubmitButton type="submit">
                   <span>Submit</span>

@@ -121,7 +121,7 @@ export default function Profile() {
 
                                     <p className={styles.description}>
                                         Unique Id <br />
-                                        <code className={styles.code}>{getTechnoId(user)}</code>
+                                        <code className={styles.code}>{user.uid}</code>
                                     </p>
 
 
@@ -211,9 +211,8 @@ function Listings() {
 }
 
 
-  const { user } = useUserContext();
+const { user } = useUserContext();
   const [listing, setListing] = useState([]);
-  const isSold = useState();
   const router = useRouter();
 
   useEffect(() => {
@@ -222,8 +221,11 @@ function Listings() {
 
   function fetchListings() {
     let data = [];
-
-    getDocs(collection(firestore, "SellTrees")).then((querySnapshot) => {
+    const q = query(
+      collection(firestore, "SellTrees"),
+      where("sellerId", "==", user.uid)
+    );
+    getDocs(q).then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         data.push(doc.data());
       });
@@ -233,10 +235,10 @@ function Listings() {
 
   return (
     <div>
-      {listing.length > 0 && (
+      <h1 className="text-white text-center text-3xl">My Listings</h1>
+      {listing.length > 0  ? (
         <div>
-          <h1 className="text-white text-center text-3xl">My Listings</h1>
-          <div className="flex flex-wrap justify-center">
+          <div className="flex flex-wrap">
             {listing.map((listing) => (
               <div className="w-1/4 p-4">
                 <div
@@ -245,7 +247,7 @@ function Listings() {
                 >
                   <div className="card-body">
                     <img
-                      className="card-img-top p-3"
+                      className="card-img-top p-3 pl-2 pr-2"
                       src={listing.imageUrl}
                       alt="Image1"
                       width={300}
@@ -255,15 +257,13 @@ function Listings() {
                       {listing.treeTitle}
                     </h2>
                     <p className="pl-5">
-                      Description:{listing.treeDescription}
+                      Description:<br/>{listing.treeDescription}
                       <br />
                       Species:{listing.treeSpecies}
                       <br />
-                      Price (In Rupees):{listing.treePrice}
+                      Adoption Status:{listing.isSold ? " Adopted" : " Not Adopted"}
                       <br />
-                      Adoption Status:{isSold ? " Adopted" : " Not Adopted"}
-                      <br />
-                      Adopted By:{getTechnoId(user)}
+                      {listing.isSold && <>Adopted by:<br/>{listing.soldTo}</>}
                     </p>
                     {/*<div className="card-actions justify-end">
                         <button className="btn bg-purple-500 text-gray-100 w-full py-4 rounded-lg hover:bg-primary-900" onClick={() => editListing()}>
@@ -273,28 +273,39 @@ function Listings() {
                   </div>
                 </div>
               </div>
-            ))}
+              ))}
           </div>
         </div>
-      )}
+      ): <h3 className="text-white text-center text-xl">You haven't listed anything <br/>
+      <a
+              href="/tree-seller"
+              className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-center text-white font-bold items-center justify-center hover:bg-primary-500 hover:text-white"
+            >
+              List Here
+            </a></h3>}
     </div>
   );
 }
 
 function Adoption() {
   const [adoption, setAdoption] = useState([]);
+  const { user } = useUserContext();
 
   useEffect(() => {
     fetchAdoption();
   }, []);
 
   function fetchAdoption() {
+
     let data = [];
 
-    getDocs(collection(firestore, "SellTrees")).then((querySnapshot) => {
+    const q = query(
+      collection(firestore, "SellTrees"),
+      where("soldTo", "==", user.uid)
+    );
+
+    getDocs(q).then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        // alert(doc.id + " => " + doc.data());
         data.push(doc.data());
       });
       setAdoption(data);
@@ -304,33 +315,53 @@ function Adoption() {
   return (
     <div>
       <h1 className="text-white text-center text-3xl">My Adoptions</h1>
-      <div className="flex flex-row flex-wrap">
-        {adoption.map((adoption) => (
-          <div className="w-1/4 p-4" key={adoption.treeTitle}>
-            <div className="card bg-white shadow-xl text-primary-content text-black rounded-lg">
-              <img
-                className="card-img-top p-3 pl-2 pr-2"
-                src={adoption.imageUrl}
-                alt="Image1"
-                width={300}
-                height={300}
-              />
-              <div className="card-body">
-                <h2 className="card-title pl-5">{adoption.treeTitle}</h2>
-                <p className='pl-5'>
-                  Description: {adoption.treeDescription}
-                  <br />
-                  Species: {adoption.treeSpecies}
-                  <br />
-                  Height: {adoption.treeHeight}
-                  <br/>
-                  Location:{adoption.treeCity},{adoption.treeState}
-                </p>
+      {adoption.length > 0  ? (
+        <div>
+          <div className="flex flex-wrap">
+            {adoption.map((adoption) => (
+              <div className="w-1/4 p-4">
+                <div
+                  className="card bg-white shadow-xl text-primary-content text-black rounded-lg"
+                  key={adoption.treeTitle}
+                >
+                  <div className="card-body">
+                    <img
+                      className="card-img-top p-3 pl-2 pr-2"
+                      src={adoption.imageUrl}
+                      alt="Image1"
+                      width={300}
+                      height={300}
+                    />
+                    <h2 className="card-title text-black pl-5">
+                      {adoption.treeTitle}
+                    </h2>
+                    <p className="pl-5">
+                      Description:<br/>{adoption.treeDescription}
+                      <br />
+                      Species:{adoption.treeSpecies}
+                      <br />
+                      Height:{adoption.treeHeight}
+                      <br />
+                      Location:{adoption.treeCity},{adoption.treeState}
+                    </p>
+                    {/*<div className="card-actions justify-end">
+                        <button className="btn bg-purple-500 text-gray-100 w-full py-4 rounded-lg hover:bg-primary-900" onClick={() => editListing()}>
+                          Edit
+                        </button>
+                  </div>*/}
+                  </div>
+                </div>
               </div>
-            </div>
+              ))}
           </div>
-        ))}
-      </div>
+        </div>
+      ): <h3 className="text-white text-center text-xl">You haven't adopted any tree yet <br/>
+      <a
+              href="/tree-seller"
+              className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-center text-white font-bold items-center justify-center hover:bg-primary-500 hover:text-white"
+            >
+              Adopt Here
+            </a></h3>}
     </div>
   );
 }
