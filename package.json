@@ -4,12 +4,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "compile":"truffle compile",
-    "migrate":"truffle migrate",
-    "test":"truffle test",
-    "console":"truffle console",
-    "deploy":"truffle deploy",
-    "ganache":"ganache"
+    "compile": "truffle compile",
+    "migrate": "truffle migrate",
+    "test": "truffle test",
+    "console": "truffle console",
+    "deploy": "truffle deploy",
+    "ganache": "ganache"
   },
   "dependencies": {
     "@emotion/react": "^11.5.0",

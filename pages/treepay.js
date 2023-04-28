@@ -1,6 +1,7 @@
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import styles from "./pay.module.css";
+import { useLocation } from 'react';
 import tw from "twin.macro";
 import Section1 from "../components/sections/section1.js";
 import bgStyles from "../styles/bgStyles.module.css";
@@ -10,14 +11,11 @@ import {
   getDocs,
   query,
   where,
+  doc,
   getDoc,
 } from "firebase/firestore";
 import { auth } from "../services/firebase.js";
-import { firestore } from "../services/firebase.js";
-import { clcik } from "../services/transactweb3.js";
-import Web3 from "web3";
-import { abi } from "../services/transactweb3.js";
-import { doc } from "firebase/firestore";
+import { firebase,firestore } from "../services/firebase.js";
 import { useUserContext } from "../services/userContext";
 import { async } from "@firebase/util";
 import { useRouter } from "next/router";
@@ -28,39 +26,27 @@ export default function pay() {
   const [amount, setAmount] = useState(0);
   const [paySuccess, setPaySuccess] = useState(false);
   const [paymentDetails, setPaymentDetails] = useState("");
-  let web3;
-  const [defaultacc, setdefaultacc] = useState();
-  const [transhash, settranshash] = useState("");
   const { user } = useUserContext();
   const [localData, setLocalData] = useState();
   const [orgs, setOrgs] = useState([]);
   const [price, setPrice] = useState([]);
   const router = useRouter();
-  function connect() {
-    web3 = new Web3(window.ethereum);
-    window.ethereum.enable().catch((error) => {
-      // User denied account access
-      console.log(error);
-    });
-    const AgentContract = new web3.eth.Contract(abi);
-    web3.eth.defaultAccount = web3.currentProvider.selectedAddress;
-    setdefaultacc(web3.eth.defaultAccount);
-    return web3.currentProvider.selectedAddress;
-  }
 
   useEffect(async () => {
-    connect();
     fetchUser();
    fetchAmount();
   }, []);
 
   function fetchUser() {
     const docRef = collection(firestore, "Users");
+    const q = query(docRef, where("type", "==", "Normal Citizen"));
+    let data=[];
     // alert()
-    getDocs(docRef)
+    getDocs(q)
       .then((snapshot) => {
         snapshot.forEach((doc) => {
-          setOrgs([...orgs, doc.data().fname + " " + doc.data().lname]);
+          data.push(doc.data().fname+ " " + doc.data().lname);
+          setOrgs(data);
         });
       })
       .catch((e) => {
@@ -82,18 +68,15 @@ export default function pay() {
       .catch((e) => {
         console.log(e);
       });
-  }
-
-  
 
 
-  function validateFormWithJS() {
+  {/*function validateFormWithJS() {
     const Amount = document.getElementById("Amount").value;
 
     if (!Amount) {
       alert("Please enter Amount.");
       return false;
-    }
+    }*/}
     // displayRazorpay(Amount)
   }
   const loadScript = (src) => {
@@ -152,18 +135,15 @@ export default function pay() {
           name: "",
           description: "Test Transaction",
           handler: function (res) {
-            clcik(defaultacc, amount, (hash) => {
-              settranshash(hash);
               addDoc(collection(firestore, "payments"), {
                 name,
                 amount,
-                hash,
-                fromname: auth.currentUser.displayName,
+                fromname: user,
                 ...res,
               })
                 .then(() => console.log("Document was saved"))
                 .catch((e) => alert(`Error occured : ${JSON.stringify(e)}`));
-            });
+            
             setPaySuccess(true);
             setPaymentDetails({
               ...res,
@@ -213,7 +193,7 @@ export default function pay() {
           <SuccessPage
             payment_id={paymentDetails.razorpay_payment_id}
             amount={paymentDetails.amount}
-            transhash={transhash}
+            treePrice={paymentDetails.amount}
           />
         ) : (
           <div className={styles.grid}>
@@ -238,7 +218,7 @@ export default function pay() {
                 {orgs.map((e) => (
                   <option value={e}>{e}</option>
                 ))}
-              </select>
+              </select>  
 
               <select
                 className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -248,7 +228,7 @@ export default function pay() {
                 required
               >
                 <option value="Select">Select</option>
-                {Array.isArray(price) && price.map((e) => (
+                {price.map((e) => (
                   <option value={e}>{e}</option>
                 ))}
               </select>
@@ -292,7 +272,56 @@ export default function pay() {
   );
 }
 
-function SuccessPage({ payment_id, amount, transhash }) {
+function SuccessPage({ payment_id, amount, treePrice }) {
+  const [treeDetails, setTreeDetails] = useState({});
+
+  useEffect(() => {
+    // Fetch tree details from SellTrees collection
+    const fetchTreeDetails = async () => {
+      const sellTreesRef = firebase.firestore().collection("SellTrees");
+      const query = sellTreesRef.where("treePrice", "==", amount).limit(1);
+      const snapshot = await query.get();
+
+      if (snapshot.empty) {
+        console.log("No tree found with treePrice = ", amount);
+        return;
+      }
+
+      const tree = snapshot.docs[0].data();
+      setTreeDetails(tree);
+    };
+
+    fetchTreeDetails();
+  }, [amount]);
+
+  useEffect(() => {
+    // Create new document in Adoptions collection
+    const adoptionsRef = firebase.firestore().collection("Adoptions");
+    const randomId = adoptionsRef.doc().id;
+    const data = {
+      treeTitle: treeDetails.treeTitle,
+      treeDescription: treeDetails.treeDescription,
+      treeImage: treeDetails.imageUrl,
+      treeHeight: treeDetails.treeHeight,
+      treePrice:treeDetails.treePrice,
+      treeStatus:treeDetails.treeStatus,
+      treeSpecies:treeDetails.treeSpecies,
+      treeState:treeDetails.treeState,
+      treeCity:treeDetails.treeCity,
+      paymentId: payment_id,
+      amount: amount,
+      adoptionDate: new Date(),
+      adoptionId: randomId,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    };
+
+    adoptionsRef
+      .doc(randomId)
+      .set(data)
+      .then(() => console.log("Adoption added to collection."))
+      .catch((error) => console.error("Error adding adoption to collection: ", error));
+  }, [treeDetails, payment_id]);
+
   return (
     <div className="container mx-auto mt-4">
       <div className="shadow-md bg-white grid place-items-center rounded-md p-10 gap-3">
@@ -307,10 +336,6 @@ function SuccessPage({ payment_id, amount, transhash }) {
           <p>Amount: </p>
           <p>{amount}</p>
         </div>
-        <div className="flex gap-3 text-lg">
-          <p>Transaction Hash: </p>
-          <p>{transhash}</p>
-        </div>
       </div>
     </div>
     
@@ -320,4 +345,3 @@ function SuccessPage({ payment_id, amount, transhash }) {
 
 
  
-   

@@ -220,10 +220,6 @@ function Listings() {
     fetchListings();
   }, []);
 
-  const editListing = () => {
-    window.localStorage.setItem("listingEditing", true);
-    router.push('/setlisting');
-}
   function fetchListings() {
     let data = [];
 
@@ -269,11 +265,11 @@ function Listings() {
                       <br />
                       Adopted By:{getTechnoId(user)}
                     </p>
-                    <div className="card-actions justify-end">
+                    {/*<div className="card-actions justify-end">
                         <button className="btn bg-purple-500 text-gray-100 w-full py-4 rounded-lg hover:bg-primary-900" onClick={() => editListing()}>
                           Edit
                         </button>
-                  </div>
+                  </div>*/}
                   </div>
                 </div>
               </div>
@@ -326,6 +322,9 @@ function Adoption() {
                   <br />
                   Species: {adoption.treeSpecies}
                   <br />
+                  Height: {adoption.treeHeight}
+                  <br/>
+                  Location:{adoption.treeCity},{adoption.treeState}
                 </p>
               </div>
             </div>

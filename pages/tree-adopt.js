@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styled from "styled-components";
 import tw from "twin.macro";
@@ -12,14 +12,13 @@ import {
   addDoc,
   collection,
   getDocs,
+  doc,
   query,
   where,
   getDoc,
 } from "firebase/firestore";
 import { firestore } from "../services/firebase.js";
 import { useUserContext } from "../services/userContext.js";
-
-
 
 /*export default function adoptTrees() {
   const [isFetching, setFetching] = useState(true);
@@ -99,17 +98,35 @@ import { useUserContext } from "../services/userContext.js";
 export default function adoptTrees() {
   const [isFetching, setFetching] = useState(true);
   const [sales, setSales] = useState([]);
-  const{user}=useUserContext();
-  
+  const { user } = useUserContext();
+
   useEffect(() => {
     fetchSales();
   }, []);
 
+  // function fetchSales() {
+  //   setFetching(true);
+  //   let data = [];
+
+  //   getDocs(collection(firestore, "SellTrees")).then((querySnapshot) => {
+  //     querySnapshot.forEach((doc) => {
+  //       data.push(doc.data());
+  //     });
+
+  //     setFetching(false);
+  //     setSales(data);
+  //   });
+  // }
   function fetchSales() {
     setFetching(true);
     let data = [];
 
-    getDocs(collection(firestore, "SellTrees")).then((querySnapshot) => {
+    const q = query(
+      collection(firestore, "SellTrees"),
+      where("isSold", "==", false)
+    );
+
+    getDocs(q).then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         data.push(doc.data());
       });
@@ -118,7 +135,45 @@ export default function adoptTrees() {
       setSales(data);
     });
   }
-  
+
+  // async function adoptTree(treeId, userId) {
+  //   const treeRef = doc(firestore, "SellTrees", treeId);
+
+  //   try {
+  //     await updateDoc(treeRef, {
+  //       isadopted: true,
+  //       soldto: userId
+  //     });
+  //     console.log("Tree adopted successfully!");
+  //   } catch (error) {
+  //     console.error("Error adopting tree: ", error);
+  //   }
+  // }
+  async function adoptTree(treeId, userId) {
+    if (!treeId) {
+      console.error("Error adopting tree: treeId is undefined");
+      return;
+    }
+    const treeRef = doc(firestore, "SellTrees", treeId);
+    const soldToSnapshot = await getDoc(treeRef);
+
+    if (soldToSnapshot.exists() && !soldToSnapshot.data().isadopted) {
+      try {
+        await updateDoc(treeRef, {
+          isadopted: true,
+          soldto: userId,
+        });
+        console.log("Tree adopted successfully!");
+      } catch (error) {
+        console.error("Error adopting tree: ", error);
+      }
+    } else {
+      console.error(
+        "Error adopting tree: The tree is already adopted or does not exist"
+      );
+    }
+  }
+
   return (
     <div>
       {isFetching ? (
@@ -127,30 +182,44 @@ export default function adoptTrees() {
         <div>
           <HeadingTitle>TREES TO ADOPT</HeadingTitle>
           <div className="flex flex-row flex-wrap">
-            {sales.map((sale) => (
-              <div className="card w-75 bg-white shadow-xl text-primary-content m-4 text-black rounded-lg" key={sale.treeTitle}>
-                <div className="card-body">
-                  <img
-                    className="card-img-top p-3 pl-2 pr-2"
-                    src={sale.imageUrl}
-                    alt="Image1"
-                    width={300}
-                    height={300}
-                  />
-                  <h2 className="card-title text-black pl-5">{sale.treeTitle}</h2>
-                  <p className="pl-5">
-                    Description: {sale.treeDescription}<br></br>
-                    Species: {sale.treeSpecies}<br></br>
-                    Price (In Rupees): {sale.treePrice}
-                  </p>
-                  <div className="card-actions justify-end">
-                    <Link href="/treepay">
-                      <a>
-                        <button className="btn bg-purple-500 text-gray-100 w-full py-4 rounded-lg hover:bg-primary-900">
-                          Adopt Now
-                        </button>
-                      </a>
-                    </Link>
+            {sales.map((sale, index) => (
+              <div className="flex flex-row pr-5 m-5" key={sale.treeTitle}>
+                <div className="card w-75 bg-white shadow-xl text-primary-content m-4 text-black rounded-lg">
+                  <div className="card-body">
+                    <img
+                      className="card-img-top p-3"
+                      src={sale.imageUrl}
+                      alt="Image1"
+                      width={300}
+                      height={300}
+                    />
+                    <h2 className="card-title text-black pl-5">
+                      {sale.treeTitle}
+                    </h2>
+                    <p className="pl-5">
+                      Description:{sale.treeDescription}
+                      <br></br>
+                      Species:{sale.treeSpecies}
+                      <br></br>
+                      Price(In Rupees):{sale.treePrice}
+                    </p>
+                    <div className="card-actions justify-end">
+                    
+                        <a>
+                          <button
+                            className="btn bg-purple-500 text-gray-100 w-full py-4 rounded-lg hover:bg-primary-900"
+                            onClick={() => {
+                              const index = sales.indexOf(sale);
+                              alert(index);
+                              // do something with the index
+                              adoptTree()
+                            }}
+                          >
+                            Adopt Now
+                          </button>
+                        </a>
+             
+                    </div>
                   </div>
                 </div>
               </div>
