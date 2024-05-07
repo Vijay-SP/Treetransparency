@@ -16,26 +16,24 @@ _Tree Transparency_ is a blockchain-enabled platform designed to improve transpa
 
 ## Usage
 
-After launching the app, navigate to `http://localhost:5000` to access the platform. Register as a new user to start tracking tree growth or making donations.
+After launching the app, navigate to `http://localhost:3000` to access the platform. Register as a new user to start tracking tree growth or making donations.
 
 ## Contributing
 
 Contributors are welcome to improve the _Tree Transparency_ platform. Please fork the repository and submit pull requests to the main branch. Ensure you write clean code and maintain the existing coding style.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/your-repository/tree-transparency/LICENSE.md) file for details.
 
 ## Acknowledgments
 
-Thanks to our guide Prof. Monali Shetty and the entire department of Computer Engineering at C.R.C.E for their constant support. Special thanks to all participants and volunteers who are contributing to a greener planet.
+Thanks to our guide Prof. Monali Shetty and the entire department of Computer Engineering at FR.CRCE for their constant support. Special thanks to all participants and volunteers who are contributing to a greener planet.
 
 
 ## Video Demonstration
 
 Click on the image below to watch a video demonstration of the _Tree Transparency_ platform:
+[<img src="https://i.ytimg.com/vi/Hc79sDi3f0U/maxresdefault.jpg" width="50%">](https://drive.google.com/file/d/1VtLebBzZVtgVmvFb7aB_gF1hhRU3UCRP/view?usp=sharing "Now in Android: 55")
 
-[![Watch the Video](path_to_your_thumbnail_image)](https://drive.google.com/file/d/1VtLebBzZVtgVmvFb7aB_gF1hhRU3UCRP/view?usp=sharing "Click to Watch the Video")
+[![Watch the Video](path_to_your_thumbnail_image)]( "Click to Watch the Video")
 
 ---
 
