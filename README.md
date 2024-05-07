@@ -32,7 +32,7 @@ Thanks to our guide Prof. Monali Shetty and the entire department of Computer En
 
 Click on the image below to watch a video demonstration of the _Tree Transparency_ platform:
 
-[![Watch the Video]!(https://github.com/Vijay-SP/Treetransparency/assets/64248006/d4e53b8b-6288-44e4-b9e2-a61e01196bd5)
+[![Watch the Video](https://github.com/Vijay-SP/Treetransparency/assets/64248006/d4e53b8b-6288-44e4-b9e2-a61e01196bd5)
 ](https://drive.google.com/file/d/1VtLebBzZVtgVmvFb7aB_gF1hhRU3UCRP/view?usp=sharing "Click to Watch the Video")
 
 ---
