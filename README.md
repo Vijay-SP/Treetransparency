@@ -1,6 +1,7 @@
 # Tree Transparency: A Blockchain-Powered Tree Plantation and Monitoring System
 
-![Tree Transparency Logo](https://user-images.githubusercontent.com/example/logo.png)
+![Tree Transparency Logo](https://github.com/Vijay-SP/Treetransparency/assets/64248006/dd2e7db1-b7fc-4526-a3ae-2db72bf937f9)
+
 
 ## Overview
 
@@ -44,10 +45,3 @@ Click on the image below to watch a video demonstration of the _Tree Transparenc
 
 [![Watch the Video](https://github.com/Vijay-SP/Treetransparency/assets/64248006/d4e53b8b-6288-44e4-b9e2-a61e01196bd5)
 ](https://drive.google.com/file/d/1VtLebBzZVtgVmvFb7aB_gF1hhRU3UCRP/view?usp=sharing "Click to Watch the Video")
-
----
-
-
----
-
-**Contact Information:** For more details, please contact [info@treetransparency.com](mailto:info@treetransparency.com). Follow us on [Twitter](https://twitter.com/treetransparency) to stay updated with the latest project developments.
