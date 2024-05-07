@@ -18,10 +18,6 @@ _Tree Transparency_ is a blockchain-enabled platform designed to improve transpa
 
 After launching the app, navigate to `http://localhost:3000` to access the platform. Register as a new user to start tracking tree growth or making donations.
 
-## Contributing
-
-Contributors are welcome to improve the _Tree Transparency_ platform. Please fork the repository and submit pull requests to the main branch. Ensure you write clean code and maintain the existing coding style.
-
 
 ## Acknowledgments
 
@@ -30,11 +26,16 @@ Thanks to our guide Prof. Monali Shetty and the entire department of Computer En
 ## Thesis
 
 [TreeTransparency Thesis.pdf](https://github.com/Vijay-SP/Treetransparency/files/15229244/BachelorsThesis_Vijay.pdf)
-[embed]https://github.com/Vijay-SP/Treetransparency/files/15229244/BachelorsThesis_Vijay.pdf[/embed]
 
 
 ## Video Demonstration
 
+Click on the image below to watch a video demonstration of the _Tree Transparency_ platform:
+
+[![Watch the Video]!(https://github.com/Vijay-SP/Treetransparency/assets/64248006/d4e53b8b-6288-44e4-b9e2-a61e01196bd5)
+](https://drive.google.com/file/d/1VtLebBzZVtgVmvFb7aB_gF1hhRU3UCRP/view?usp=sharing "Click to Watch the Video")
+
+---
 
 
 ---
