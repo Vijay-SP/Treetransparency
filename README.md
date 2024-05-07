@@ -23,6 +23,16 @@ After launching the app, navigate to `http://localhost:3000` to access the platf
 
 Thanks to our guide Prof. Monali Shetty and the entire department of Computer Engineering at FR.CRCE for their constant support. Special thanks to all participants and volunteers who are contributing to a greener planet.
 
+
+## Research and Thesis Documentation
+
+To deepen your understanding of the _Tree Transparency_ project and its underlying research, we have made our detailed research paper and thesis available. These documents provide comprehensive insights into the methodologies, technologies, and outcomes of our work. Feel free to explore the following resources:
+
+- **Research Paper**: Read about the technical details and the results of our research. Access the paper [here](https://github.com/Vijay-SP/Treetransparency/files/15229327/treetransparencyresearchpaper.pdf).
+.
+
+- **Bachelor's Thesis**: This document contains the full exposition of our project, including development, testing, and analysis. View the thesis [here](https://github.com/Vijay-SP/Treetransparency/files/15229244/BachelorsThesis_Vijay.pdf).
+
 ## Thesis
 
 [TreeTransparency Thesis.pdf](https://github.com/Vijay-SP/Treetransparency/files/15229244/BachelorsThesis_Vijay.pdf)
