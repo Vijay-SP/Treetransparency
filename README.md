@@ -1,47 +1,21 @@
-##Tree Transparency
-Welcome to the official GitHub repository for the Tree Transparency project. This system, developed as part of our Bachelor of Engineering degree at Fr. Conceicao Rodrigues College of Engineering, is designed to enhance the transparency and effectiveness of tree plantation initiatives through blockchain technology and a sophisticated tree monitoring system.
+# Tree Transparency: A Blockchain-Powered Tree Plantation and Monitoring System
 
-Project Overview
-Tree Transparency aims to address critical challenges in environmental conservation efforts such as deforestation and climate change. Utilizing blockchain technology, the platform ensures transparency in fund transfers and tree plantations conducted by NGOs and government bodies. Additionally, it features a volunteer-based tracking system for monitoring the growth of planted trees.
+![Tree Transparency Logo](https://user-images.githubusercontent.com/example/logo.png)
 
-Key Features
-Blockchain Deployment: Ensures transparency and security in financial transactions and tree adoption processes.
-Volunteer Tracking System: Empowers local citizens to monitor tree growth and health, contributing to the system's accuracy and community engagement.
-Automated Growth Tracking: Utilizes IoT devices to automatically measure tree growth in areas less accessible to volunteers.
-Data Analytics: Leverages advanced analytics to recommend the most suitable tree species for specific locations based on environmental data.
-Installation and Usage
-The project is set up to run on a local server or cloud environment. Follow these instructions to get started:
+## Overview
 
-Clone the repository:
-bash
-Copy code
-git clone https://github.com/your-username/Tree-Transparency.git
-Navigate to the project directory and install dependencies:
-bash
-Copy code
-cd Tree-Transparency
-npm install
-Start the application:
-bash
-Copy code
-npm start
-For more detailed instructions, see the installation guide.
+_Tree Transparency_ is a blockchain-enabled platform designed to improve transparency and efficiency in tree plantation initiatives by NGOs and government bodies. Developed by a dedicated team as part of the Bachelor of Engineering degree requirements at Fr. Conceicao Rodrigues College of Engineering, Mumbai, this system leverages cutting-edge technology including blockchain and IoT to ensure every tree's growth is tracked and funds are utilized properly.
 
-Contribution
-Contributions to the Tree Transparency project are welcome! Please refer to the contribution guidelines for more information on how you can contribute.
+## Features
 
-Demonstration Video
-For a full demonstration of the project's capabilities, including insights into the blockchain functionality and the tracking system, watch our project demo video.
+- **Blockchain Integration:** Ensures transparency and traceability of funds and tree growth records.
+- **Volunteer Tracking System:** Engages local communities by allowing volunteers to monitor tree growth, which is incentivized through a reward system.
+- **IoT Growth Tracking:** Utilizes IoT devices for real-time monitoring of tree growth in areas less accessible to volunteers.
+- **Geolocation Features:** All trees are geotagged, allowing for precise location and monitoring of each planted tree.
+- **Data-Driven Tree Selection:** Analyzes environmental data to recommend the best tree species for specific locations, optimizing survival rates and environmental impact.
 
-Team
-Ryan Valiaparambil
-Deon Gracias
-Mahek Intwala
-Vijay Prajapati
-Guided by Prof. Monali Shetty
+## Installation
 
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-Acknowledgments
-We extend our gratitude to our guide Prof. Monali Shetty, the Department of Computer Engineering at Fr. Conceicao Rodrigues College of Engineering, and all who supported us during this project.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-repository/tree-transparency.git
