@@ -27,13 +27,14 @@ Contributors are welcome to improve the _Tree Transparency_ platform. Please for
 
 Thanks to our guide Prof. Monali Shetty and the entire department of Computer Engineering at FR.CRCE for their constant support. Special thanks to all participants and volunteers who are contributing to a greener planet.
 
+## Thesis
+
+[BachelorsThesis_Vijay.pdf](https://github.com/Vijay-SP/Treetransparency/files/15229244/BachelorsThesis_Vijay.pdf)
+
 
 ## Video Demonstration
 
-Click on the image below to watch a video demonstration of the _Tree Transparency_ platform:
-[<img src="https://i.ytimg.com/vi/Hc79sDi3f0U/maxresdefault.jpg" width="50%">](https://drive.google.com/file/d/1VtLebBzZVtgVmvFb7aB_gF1hhRU3UCRP/view?usp=sharing "Now in Android: 55")
 
-[![Watch the Video](path_to_your_thumbnail_image)]( "Click to Watch the Video")
 
 ---
 
