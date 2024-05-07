@@ -30,6 +30,7 @@ Thanks to our guide Prof. Monali Shetty and the entire department of Computer En
 ## Thesis
 
 [TreeTransparency Thesis.pdf](https://github.com/Vijay-SP/Treetransparency/files/15229244/BachelorsThesis_Vijay.pdf)
+[embed]https://github.com/Vijay-SP/Treetransparency/files/15229244/BachelorsThesis_Vijay.pdf[/embed]
 
 
 ## Video Demonstration
