@@ -14,8 +14,29 @@ _Tree Transparency_ is a blockchain-enabled platform designed to improve transpa
 - **Geolocation Features:** All trees are geotagged, allowing for precise location and monitoring of each planted tree.
 - **Data-Driven Tree Selection:** Analyzes environmental data to recommend the best tree species for specific locations, optimizing survival rates and environmental impact.
 
-## Installation
+## Usage
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/your-repository/tree-transparency.git
+After launching the app, navigate to `http://localhost:5000` to access the platform. Register as a new user to start tracking tree growth or making donations.
+
+## Contributing
+
+Contributors are welcome to improve the _Tree Transparency_ platform. Please fork the repository and submit pull requests to the main branch. Ensure you write clean code and maintain the existing coding style.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/your-repository/tree-transparency/LICENSE.md) file for details.
+
+## Acknowledgments
+
+Thanks to our guide Prof. Monali Shetty and the entire department of Computer Engineering at C.R.C.E for their constant support. Special thanks to all participants and volunteers who are contributing to a greener planet.
+
+
+## Video Demonstration
+
+Click on the image below to watch a video demonstration of the _Tree Transparency_ platform:
+
+[![Watch the Video](path_to_your_thumbnail_image)](https://drive.google.com/file/d/1VtLebBzZVtgVmvFb7aB_gF1hhRU3UCRP/view?usp=sharing "Click to Watch the Video")
+
+---
+
+**Contact Information:** For more details, please contact [info@treetransparency.com](mailto:info@treetransparency.com). Follow us on [Twitter](https://twitter.com/treetransparency) to stay updated with the latest project developments.
